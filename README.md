@@ -1,0 +1,1 @@
+# Docker Typescript Template
