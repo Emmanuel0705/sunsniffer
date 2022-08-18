@@ -1,15 +1,22 @@
 version: "3.7"
 services:
-    mongodb:
+    mongo_db:
         image: "mongo"
-        container_name: mongodb
+        container_name: mongo_db
+        ports:
+            - "27017:27017"
         volumes:
             - data:/data/db
         env_file:
             - ./src/mongodb.env
+    mongo-seed:
+        build: ./src/seeding/
+        command: ["node", "seed.ts"]
+        depends_on:
+            - mongo_db
     app:
         build: ./
-        container_name: vaccine-app
+        container_name: vaccine_app
         ports:
             - "4000:4000"
         volumes:
@@ -20,6 +27,7 @@ services:
         restart: "on-failure"
         command: ["npm", "run", "dev"]
         depends_on:
-            - mongodb
+            - mongo_db
+            - mongo-seed
 volumes:
     data:

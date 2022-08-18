@@ -1,0 +1,23 @@
+{
+    "name": "covid-reports-typescript",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "ts-node --transpile-only ./src/app.ts",
+        "dev": "nodemon src/app.ts",
+        "seed": "node seed.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "mongo-seeding": "^3.7.2",
+        "csvtojson": "^2.0.10",
+        "dotenv": "^16.0.1",
+        "ts-node": "^10.9.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.19"
+    }
+}
