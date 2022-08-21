@@ -45,6 +45,6 @@
 
 ## Test the endpoint
 
-# BaseUrl & endpoint
+## BaseUrl & endpoint
 
 http://localhost:4000/api/v1/vaccines/vaccine-summary?c=FR&dateFrom=2021-W10&dateTo=2021-W53&range=5
