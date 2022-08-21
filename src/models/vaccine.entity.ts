@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 export interface VaccineType {
     YearWeekISO: string;
@@ -8,7 +8,7 @@ export interface VaccineType {
     DoseAdditional1: number;
     DoseAdditional2: number;
     UnknownDose: number;
-    NumberDosesReceived: number;
+    NumberDosesReceived: string;
     NumberDosesExported: number;
     Region: string;
     Population: string;
@@ -26,7 +26,7 @@ const vaccineSchema = new Schema<VaccineType>({
     DoseAdditional1: Number,
     DoseAdditional2: Number,
     UnknownDose: Number,
-    NumberDosesReceived: Number,
+    NumberDosesReceived: String,
     NumberDosesExported: Number,
     Region: String,
     Population: String,
@@ -36,4 +36,4 @@ const vaccineSchema = new Schema<VaccineType>({
     Denominator: Number,
 });
 
-export const Vaccine = model<VaccineType>('Vaccine', vaccineSchema);
+export const Vaccine = model<VaccineType>("Vaccine", vaccineSchema);

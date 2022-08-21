@@ -4,25 +4,72 @@ import { Vaccine, VaccineType } from "../../../models/vaccine.entity";
 
 class VaccineController {
     public async getAllVaccineTrackers(req: Request, res: Response) {
-        // const insert: any = new Vaccine({
-        //     YearWeekISO: "2020-W53",
-        //     FirstDose: 0,
-        //     FirstDoseRefused: "",
-        //     SecondDose: 0,
-        //     DoseAdditional1: 0,
-        //     DoseAdditional2: 0,
-        //     UnknownDose: 8,
-        //     NumberDosesReceived: 0,
-        //     NumberDosesExported: 0,
-        //     Region: "AT",
-        //     Population: "8901064",
-        //     ReportingCountry: "AT",
-        //     TargetGroup: "ALL",
-        //     Vaccine: "UNK",
-        //     Denominator: 7388778,
-        // });
-        // await insert.save();
-        const vaccines: VaccineType[] = await Vaccine.find();
+        const { c, dateFrom, dateTo } = req.query;
+        const boundaries: [] = req.query.boundaries as [];
+
+        const vaccines: VaccineType[] = await Vaccine.aggregate([
+            {
+                $match: {
+                    ReportingCountry: c,
+                    YearWeekISO: {
+                        $gte: dateFrom,
+                        $lt: dateTo,
+                    },
+                },
+            },
+            {
+                $project: {
+                    YearWeekInt: {
+                        $toInt: {
+                            $replaceAll: {
+                                input: "$YearWeekISO",
+                                find: "-W",
+                                replacement: "",
+                            },
+                        },
+                    },
+                    dosesCount: {
+                        $cond: {
+                            if: {
+                                $eq: ["", "$NumberDosesReceived"],
+                            },
+                            then: 0,
+                            else: "$NumberDosesReceived",
+                        },
+                    },
+                    YearWeek: "$YearWeekISO",
+                },
+            },
+            {
+                $bucket: {
+                    groupBy: "$YearWeekInt",
+                    boundaries,
+                    default: "Other",
+                    output: {
+                        count: {
+                            $sum: {
+                                $toInt: "$dosesCount",
+                            },
+                        },
+                        weeks: {
+                            $push: "$YearWeek",
+                        },
+                    },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    weekStart: {
+                        $first: "$weeks",
+                    },
+                    weekEnd: {
+                        $last: "$weeks",
+                    },
+                    NumberDosesReceived: "$count",
+                },
+            },
+        ]);
 
         res.status(200).json({
             status: "SUCCESS",

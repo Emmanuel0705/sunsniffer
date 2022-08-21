@@ -10,23 +10,25 @@
 
 ---
 
-2.  Open _src/_
+2.  Open - [_src/_](./src/seeding/)
 
-> Update mongo.env content (OPTIONAL)
-> <br>
-> Rename sample.env to .env and update the content(REQUIRED),
+-   Update mongo.env content (OPTIONAL)
+    <br>
+-   Rename sample.env to .env and update the content(REQUIRED),
 
 > **NOTE:**<br>
-> Leave DATABASE_URL as it is (do not change the value).<br>
-> Set MONGODB_USERNAME to the value of MONGO_INITDB_ROOT_USERNAME,
-> MONGODB_PASSWORD to the value of MONGO_INITDB_ROOT_PASSWORD and  
-> MONGODB_DATABASE to the value of MONGO_INITDB_DATABASE
+>
+> -   Leave DATABASE_URL as it is (do not change the value).<br>
+> -   Set MONGODB_USERNAME to the value of MONGO_INITDB_ROOT_USERNAME,<br>
+> -   MONGODB_PASSWORD to the value of MONGO_INITDB_ROOT_PASSWORD and
+>     <br>
+> -   MONGODB_DATABASE to the value of MONGO_INITDB_DATABASE
 
 ---
 
-3.  open _src/seeding/_
+3.  open - [_src/seeding/_](./src/)
 
-> Update db.env content accordingly
+-   Update db.env content accordingly
 
 ---
 
@@ -34,10 +36,15 @@
 
     ```sh
     docker-compose up -d --build
-
     ```
 
 5.  RUN
     ```sh
     docker logs vaccine-app -f
     ```
+
+## Test the endpoint
+
+# BaseUrl & endpoint
+
+http://localhost:4000/api/v1/vaccines/vaccine-summary?c=FR&dateFrom=2021-W10&dateTo=2021-W53&range=5
